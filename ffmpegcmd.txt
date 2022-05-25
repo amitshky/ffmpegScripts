@@ -1,0 +1,30 @@
+// loop through each file and process but consider the file type
+foreach ($i in Get-ChildItem) { ffmpeg -i "$i" -vf crop=608:1080:16:0,scale=1080x1920:flags=lanczos "out/$i" }
+// crop video
+// -c:a copy to copy the audio stream
+ffmpeg -i in.mp4 -vf crop:w:h:x:y -c:a copy out.mp4
+
+// scale video
+// scale=1920:-1 to automatically calculate dim according to aspect ratio
+ffmpeg -i in.mp4 -vf scale=1920x180:flags=lanczos -c:a copy out.mp4
+
+// scale and crop (multiple processing)
+ffmpeg -i in.mp4 -vf crop=608:1080:16:0,scale=1080x1920:flags=lanczos out.mp4
+
+// trim video
+ffmpeg -i in.mp4 -ss h:m:s.ms -to h:m:s.ms -c copy out.mp4
+
+// rotate video
+// 0 = 90 CounterCLockwise and Vertical Flip (default)
+// 1 = 90 Clockwise
+// 2 = 90 CounterClockwise
+// 3 = 90 Clockwise and Vertical Flip
+ffmpeg -i in.mov -vf transpose=1 out.mov
+
+// change quality
+ffmpeg -i in.jpg -q:v 10 out.jpg
+
+// concat videos
+// add the names to a txt file in the following format
+// file 'name of the file.mp4'
+ffmpeg -f concat -safe 0 -i list.txt -c copy out.mp4
