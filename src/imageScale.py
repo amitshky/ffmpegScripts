@@ -28,7 +28,7 @@ def main():
 				if not os.path.exists(outDir):
 					os.makedirs(outDir)
 					
-				command = f'ffmpeg -i "{pathStr}" -vf scale={args.width}:{args.height} "out/{pathStr}"'
+				command = f'ffmpeg -i "{pathStr}" -vf scale={args.width}:{args.height} -crf 1 -preset slow "out/{pathStr}"'
 				print(command)
 				os.system(command)
 	else:
